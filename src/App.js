@@ -1,15 +1,15 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import { display } from '@mui/system';
+import Weather from './component/weather'
 
 const classes = {
   root: {
     width: '100vw',
     height: '100vh',
-    backgroundImage: 'url(/assets/background.png)',
+    backgroundImage: 'url(/assets/background.jpg)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    opacity: 0.6,
+    opacity: 0.8,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -19,7 +19,7 @@ const classes = {
 function App() {
   return (
     <Box sx={classes.root}>
-      hello
+      <Weather />
     </Box>
   )
 }
