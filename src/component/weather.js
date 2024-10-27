@@ -2,12 +2,13 @@ import * as React from 'react'
 import { useState } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
+import { Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 
 // invoke the api
-import { getCurrentCity } from '../APIcalls'
+import { getCurrentCity, getCurrentWeather, getCityPhoto } from '../APIcalls'
 
 const classes = {
     root: {
@@ -40,15 +41,30 @@ const classes = {
     },
     textField: {
         width: '50%',
-    }   
+    },
+    weatherDisplay: {
+        width: '100%',
+    }
 }
 
 const Weather = () => {
     const [targetCity, setTargetCity] = useState('')
+    const [info, setInfo] = useState(null)
+    const [photo, setPhoto] = useState(null)
 
     const getUserCity = async () => {
         const res = await getCurrentCity()
         setTargetCity(res)
+    }
+
+    const getUserWeather = async () => {
+        const res = await getCurrentWeather(targetCity)
+        setInfo(res)
+    }
+
+    const getUserPhoto = async () => {
+        const res = await getCityPhoto(targetCity)
+        setPhoto(res)
     }
 
     return (
@@ -73,10 +89,32 @@ const Weather = () => {
                             />
                     </Box>
 
-                    <IconButton>
+                    <IconButton onClick={() => {getUserWeather(); getUserPhoto()}}>
                         <SearchIcon  sx={{ fontSize: '2rem' }} />
                     </IconButton>
 
+                </Box>
+
+                <Box sx={classes.weatherDisplay}>
+                    { info ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                            <img 
+                                src={info.current.condition.icon.replace(/64x64/, '128x128')}
+                                alt='weather icon'
+                                style={{ width: '128px', height: '128px', objectFit: 'contain'  }}
+                            />
+                            <Typography> {info.current.temp_c} </Typography>
+                            <Typography> {info.current.condition.text} </Typography>
+
+                            <img 
+                                src={photo}
+                                alt='city view'
+                                style={{ width: '300px', height: '300px', objectFit: 'contain'  }}
+                            />
+                        </Box>
+                    ) : (
+                        <Typography variant="body1">loading...</Typography>
+                    )}
                 </Box>
 
             </Box>
