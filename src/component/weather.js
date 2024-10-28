@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { useState } from 'react'
-import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
-import { Typography } from '@mui/material'
+import { Box, TextField, Typography, Divider } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
 import GpsFixedIcon from '@mui/icons-material/GpsFixed'
+import ImageDisplay from './imageDisplay'
+import DegreeDisplay from './degreeDisply'
 
 // invoke the api
 import { getCurrentCity, getCurrentWeather, getCityPhoto } from '../APIcalls'
@@ -15,23 +15,23 @@ const classes = {
         width: '80%',
         height: '80%',
         padding: '20px',
-        backgroundColor: '#E0E0E5',
+        backgroundColor: 'white',
         borderRadius: '16px',
         boxShadow: '8px 8px 16px rgba(0, 0, 0, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.5)',
-        backgroundImage: 'linear-gradient(145deg, #d4d4dc, #f0f0f4)', 
         border: '1px solid #C0C0C5',
         display: 'flex',
 
     },
     leftContainer: {
-        width: '35%',
+        width: '25%',
         height: '100%',
         marginRight: '12px'
     },
     rightContainer: {
-        width: '65%',
+        width: '75%',
         height: '100%',
-        marginLeft: '12px'
+        marginLeft: '12px',
+        backgroundColor: '#E0E0E5',
     },
     searchSection: {
         width: '100%',
@@ -60,6 +60,7 @@ const Weather = () => {
     const getUserWeather = async () => {
         const res = await getCurrentWeather(targetCity)
         setInfo(res)
+        console.log(res)
     }
 
     const getUserPhoto = async () => {
@@ -97,21 +98,11 @@ const Weather = () => {
 
                 <Box sx={classes.weatherDisplay}>
                     { info ? (
-                        <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                            <img 
-                                src={info.current.condition.icon.replace(/64x64/, '128x128')}
-                                alt='weather icon'
-                                style={{ width: '128px', height: '128px', objectFit: 'contain'  }}
-                            />
-                            <Typography> {info.current.temp_c} </Typography>
-                            <Typography> {info.current.condition.text} </Typography>
-
-                            <img 
-                                src={photo}
-                                alt='city view'
-                                style={{ width: '300px', height: '300px', objectFit: 'contain'  }}
-                            />
-                        </Box>
+                        <>
+                            <DegreeDisplay info={info} />
+                            <Divider />
+                            <ImageDisplay  imageURL={photo} location={info.location} status={info.current} />
+                        </>
                     ) : (
                         <Typography variant="body1">loading...</Typography>
                     )}
