@@ -6,15 +6,16 @@ import SearchIcon from '@mui/icons-material/Search'
 import GpsFixedIcon from '@mui/icons-material/GpsFixed'
 import ImageDisplay from './imageDisplay'
 import DegreeDisplay from './degreeDisply'
+import ForecastCollection from './forecastMain'
+import InfoDetail from './infoDetail'
 
 // invoke the api
-import { getCurrentCity, getCurrentWeather, getCityPhoto } from '../APIcalls'
+import { getCurrentCity, getCurrentWeather, getForecastWeather, getCityPhoto } from '../APIcalls'
 
 const classes = {
     root: {
-        width: '80%',
+        width: '70%',
         height: '80%',
-        padding: '20px',
         backgroundColor: 'white',
         borderRadius: '16px',
         boxShadow: '8px 8px 16px rgba(0, 0, 0, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.5)',
@@ -24,14 +25,16 @@ const classes = {
     },
     leftContainer: {
         width: '25%',
-        height: '100%',
-        marginRight: '12px'
+        // height: '100%',
+        padding: '20px',
+        borderRadius: '16px',
     },
     rightContainer: {
         width: '75%',
-        height: '100%',
-        marginLeft: '12px',
+        // height: '100%',
         backgroundColor: '#E0E0E5',
+        padding: '20px',
+        borderRadius: '16px',
     },
     searchSection: {
         width: '100%',
@@ -51,21 +54,29 @@ const Weather = () => {
     const [targetCity, setTargetCity] = useState('')
     const [info, setInfo] = useState(null)
     const [photo, setPhoto] = useState(null)
+    const [forecastData, setForecastData] = useState(null)
 
     const getUserCity = async () => {
         const res = await getCurrentCity()
         setTargetCity(res)
     }
 
-    const getUserWeather = async () => {
-        const res = await getCurrentWeather(targetCity)
-        setInfo(res)
-        console.log(res)
-    }
-
-    const getUserPhoto = async () => {
-        const res = await getCityPhoto(targetCity)
-        setPhoto(res)
+    const getWeatherData = async () => {
+        try {
+            // Call the three functions concurrently
+            const [weatherData, forecastData, photoData] = await Promise.all([
+                getCurrentWeather(targetCity),  
+                getForecastWeather(targetCity), 
+                getCityPhoto(targetCity) 
+            ])
+    
+            // Update the state with the results
+            setInfo(weatherData)
+            setForecastData(forecastData)
+            setPhoto(photoData)
+        } catch (error) {
+            console.error('Error fetching weather data:', error);
+        }
     }
 
     return (
@@ -90,7 +101,7 @@ const Weather = () => {
                             />
                     </Box>
 
-                    <IconButton onClick={() => {getUserWeather(); getUserPhoto()}}>
+                    <IconButton onClick={getWeatherData}>
                         <SearchIcon  sx={{ fontSize: '2rem' }} />
                     </IconButton>
 
@@ -110,12 +121,17 @@ const Weather = () => {
 
             </Box>
 
-
-
-
             <Box sx={classes.rightContainer}>
-                Right container
-
+                <Typography variant='h5' sx={{ textAlign: 'center' }}>3 days Forecast</Typography>
+                { info ? (
+                    <>
+                        <ForecastCollection forecastInfo={forecastData} />
+                        <Divider />
+                        <InfoDetail />
+                    </>
+                ) : (
+                    <Typography variant="body1">loading...</Typography>
+                )}
             </Box>
         </Box>
     )

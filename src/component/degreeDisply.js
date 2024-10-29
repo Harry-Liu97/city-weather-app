@@ -22,21 +22,24 @@ const CityDegreeDisplay = ({info}) => {
 
     const getCurrentDate = () => {
         const date = new Date()
-        const hours = date.getHours()
-        const minutes = date.getMinutes().toString().padStart(2, '0')
-        const seconds = date.getSeconds().toString().padStart(2, '0')
-
-        const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        const weekDay = week[date.getDay()]
-
-        setCurrentTime({curDay: `${weekDay}`, curTime: `${hours}:${minutes}:${seconds}`})
+        const formattedTime = date.toLocaleString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+            timeZone: info.location.tz_id,
+        })
+    
+        // Format the day of the week based on the time zone
+        const weekDay = date.toLocaleDateString('en-US', { weekday: 'long', timeZone: info.location.tz_id })
+        
+        setCurrentTime({curDay: weekDay, curTime: formattedTime})
     }
 
     useEffect(() => {
         const timer = setInterval(getCurrentDate, 1000)
-
         return () => clearInterval(timer)
-    }, [])
+    }, [info.location.tz_id])
 
     return (
         <Box sx={classes.root}>

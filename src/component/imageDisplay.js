@@ -18,11 +18,12 @@ const classes = {
         left: '50%',
         color: 'white',
         fontWeight: 'bold',
+        textAlign: 'center',
+        width: '80%'
     }
 }
 
 const CityImageDisplay = ({ imageURL, location, status }) => {
-    console.log(status)
     return (
         <Box sx={classes.root}>
             {status.is_day === 1 ? (
@@ -40,7 +41,7 @@ const CityImageDisplay = ({ imageURL, location, status }) => {
             <img 
                 src={imageURL}
                 alt='city view'
-                style={{ maxWidth: '100%', maxHeight: '300px', width: 'auto', height: 'auto', objectFit: 'contain'  }}
+                style={{ maxWidth: '100%', maxHeight: '300px', width: 'auto', height: 'auto', objectFit: 'contain', borderRadius: '16px',  }}
             />
 
             <Typography sx={classes.namePosition}>

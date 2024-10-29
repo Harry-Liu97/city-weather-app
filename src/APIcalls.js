@@ -79,6 +79,22 @@ export const getCurrentWeather = async (city) => {
     }
 }
 
+export const getForecastWeather = async (city) => {
+    try {
+        const response = await axios.get(`${BASE_URL_WEATHER}/forecast.json`, {
+            params: {
+                key: API_KEY_WEATHER,
+                q: encodeURIComponent(city),
+                days: '3'
+            }
+        })
+        return response.data
+    } catch (error) {
+        console.error('Failed to fetch weather data', error)
+    }
+}
+
+
 /**
  * Fetch photos for a specified city
  * 
