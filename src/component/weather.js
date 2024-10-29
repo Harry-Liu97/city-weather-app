@@ -15,7 +15,7 @@ import { getCurrentCity, getCurrentWeather, getForecastWeather, getCityPhoto } f
 const classes = {
     root: {
         width: '70%',
-        height: '80%',
+        minHeight: '80%',
         backgroundColor: 'white',
         borderRadius: '16px',
         boxShadow: '8px 8px 16px rgba(0, 0, 0, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.5)',
@@ -25,13 +25,11 @@ const classes = {
     },
     leftContainer: {
         width: '25%',
-        // height: '100%',
         padding: '20px',
         borderRadius: '16px',
     },
     rightContainer: {
         width: '75%',
-        // height: '100%',
         backgroundColor: '#E0E0E5',
         padding: '20px',
         borderRadius: '16px',
@@ -122,12 +120,12 @@ const Weather = () => {
             </Box>
 
             <Box sx={classes.rightContainer}>
-                <Typography variant='h5' sx={{ textAlign: 'center' }}>3 days Forecast</Typography>
+                <Typography variant='h5' sx={{ textAlign: 'center' }}> 3 DAYS FORECAST (including today)</Typography>
                 { info ? (
                     <>
                         <ForecastCollection forecastInfo={forecastData} />
                         <Divider />
-                        <InfoDetail />
+                        <InfoDetail infoDetail={info} />
                     </>
                 ) : (
                     <Typography variant="body1">loading...</Typography>
