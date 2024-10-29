@@ -11,6 +11,9 @@ This is a Weather App that allows users to check current weather conditions and 
 ## Getting Started
 To run this project locally, you need to create a `.env` file in the root directory of the project. This file should contain your API keys for the Weather API and Pixabay. 
 
+- **Weather API**: https://www.weatherapi.com
+- **Pixabay:** https://pixabay.com
+
 1. Clone the repository to your local machine:
 
    ```bash
