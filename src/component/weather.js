@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Box, TextField, Typography, Divider } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import SearchIcon from '@mui/icons-material/Search'
@@ -49,10 +49,14 @@ const classes = {
 }
 
 const Weather = () => {
-    const [targetCity, setTargetCity] = useState('')
+    const [targetCity, setTargetCity] = useState('Sydney')
     const [info, setInfo] = useState(null)
     const [photo, setPhoto] = useState(null)
     const [forecastData, setForecastData] = useState(null)
+
+    useEffect(() => {
+        getWeatherData()
+    }, [])
 
     const getUserCity = async () => {
         const res = await getCurrentCity()
