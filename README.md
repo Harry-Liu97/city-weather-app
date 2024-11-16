@@ -19,16 +19,20 @@ To run this project locally, you need to create a `.env` file in the root direct
    ```bash
    git clone git@github.com:Harry-Liu97/city-weather-app.git
    ```
-2. Create a new .env file:
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+1. Create a new .env file:
    ```bash
    touch .env
    ```
-3. Update the .env file with your actual API keys, replacing the placeholders. It should look like this:
+2. Update the .env file with your actual API keys, replacing the placeholders. It should look like this:
     ```bash
     REACT_APP_WEATHER_API_KEY=your_actual_weather_api_key
     REACT_APP_PIXABAY_API_KEY=your_actual_pixabay_api_key
    ```
-4. After setting up the .env file, you can start the project with:
+3. After setting up the .env file, you can start the project with:
    ```bash
    npm start
    ```
