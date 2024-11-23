@@ -15,8 +15,10 @@ const classes = {
         alignItems: 'center', 
     },
     fontData: {
+        padding: '10px',
         fontSize: '1.5rem',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'center',
     }
 }
 
