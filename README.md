@@ -40,4 +40,4 @@ To run this project locally, you need to create a `.env` file in the root direct
 ## Screenshots
 Here is a screenshot of the Weather App's main interface:
 
-![Weather App Main Interface](UserInterface.jpg)
+![Weather App Main Interface](UserInterface.png)
